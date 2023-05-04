@@ -19,15 +19,13 @@ class CustomerController extends Controller
 
     public function getData(Request $request)
     {
-        if(!$request) {
-            $data = Customer::limit(10);
+
+        if(!$request->name) {
+            $data = Customer::select('id','name')->limit(10)->get();
         } else {
-            $data = Customer::where('name', 'LIKE', '%'.$request.'%')->limit(10);
+            $data = Customer::select('id', 'name')->where('name', 'LIKE', '%'.$request->name.'%')->limit(10)->get();
         }
-        return response()->json([
-            'id' => $data->id,
-            'name' => $data->name,
-        ]);
+        return response()->json($data);
     }
 
     /**
@@ -55,7 +53,7 @@ class CustomerController extends Controller
         }
         $customer = $request->only('name', 'address');
         try {
-            Customer::make($customer);
+            Customer::create($customer);
             return response()->json([
                 'success' => true,
                 'message' => 'Berhasil tambah pelanggan'
@@ -64,7 +62,7 @@ class CustomerController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
-            ]);
+            ], 422);
         }
     }
 

@@ -43,13 +43,15 @@
                     <label for="namaCustomer" class="fw-semibold">Nama:</label>
                     <div class="row">
                         <div class="col-7 col-sm-10">
-                            <select name="customer" id="namaCustomer" style="width:100%; padding:3px;">
+                            <input type="text" name="customer" id="nama-customer" style="width:100%; padding:3px;">
+                            <div id="option-search"></div>
+                            {{-- <select name="customer" id="namaCustomer" style="width:100%; padding:3px;">
                                 <option value="1">Faishal Hanin</option>
                                 <option value="2">Aurum NF</option>
-                            </select>
+                            </select> --}}
                         </div>
                         <div class="col-5 col-sm-2">
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambah-transaksi-modal">
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambah-customer-modal">
                                 <i class="fas fa-plus"></i>
                                 Pelanggan Baru
                             </button>
@@ -75,12 +77,7 @@
                 <div id="product-choose-all">
                     <div class="row product-choose mb-2" data-id="1">
                         <div class="col-7">
-                            <select name="nama_produk[]" id="" style="width:100%;padding:3px;">
-                                <option value="1">Pakaian</option>
-                                <option value="2">Selimut</option>
-                                <option value="3">Bed Cover</option>
-                                <option value="4">Sprei</option>
-                            </select>
+                            <select name="nama_produk[]" class="nama-produk" style="width:100%;padding:3px;"></select>
                         </div>
                         <div class="col-4">
                             <input type="number" class="jumlah-produk" name="jumlah_produk[]" id="" style="width:100%;padding:3px;">

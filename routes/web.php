@@ -50,6 +50,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'customer'], function() {
         Route::get('get-data', [CustomerController::class, 'getData'])->name('customer.getData');
         Route::get('get-data/{id}', [CustomerController::class, 'show'])->name('customer.getData.show');
+        Route::post('store-data', [CustomerController::class, 'store'])->name('customer.store');
+    });
+    Route::group(['prefix' => 'laundry'], function() {
+        Route::get('getTypeLaundry', [LaundryController::class, 'getTypeLaundry'])->name('laundry.getTypeLaundry');
+        Route::get('getTypeCloth', [LaundryController::class, 'getTypeCloth'])->name('laundry.getTypeCloth');
+        Route::get('getDurationLaundry', [LaundryController::class, 'getDurationLaundry'])->name('laundry.getDurationLaundry');
     });
     Route::group(['prefix' => 'tambah-transaksi'], function() {
         Route::get('', [LaundryController::class, 'tambahTransaksi'])->name('tambah-transaksi');

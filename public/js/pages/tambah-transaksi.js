@@ -1,3 +1,63 @@
+let typeCloth
+
+fetch(base_url + '/laundry/getTypeLaundry', {
+    headers: {
+        "X-CSRF-TOKEN": token
+    },
+    method: 'get',
+})
+.then((response) => response.json())
+.then((data) => {
+    console.log(data)
+})
+
+fetch(base_url + '/laundry/getDurationLaundry', {
+    headers: {
+        "X-CSRF-TOKEN": token
+    },
+    method: 'get',
+})
+.then((response) => response.json())
+.then((data) => {
+    console.log(data)
+})
+
+fetch(base_url + '/laundry/getTypeCloth', {
+    headers: {
+        "X-CSRF-TOKEN": token
+    },
+    method: 'get',
+})
+.then((response) => response.json())
+.then((data) => {
+    let option = ''
+    for(let i=0 ; i < data.data.length ; i++) {
+        const dt = data.data[i]
+        console.log(dt)
+        option += `<option value="${dt.id}">${dt.name}</option>`
+    }
+    $('.nama-produk').append(option)
+    console.log(data)
+})
+
+$('#nama-customer').on('keyup', () => {
+    console.log('a')
+    if($('#nama-customer').val().length > 2) {
+        const name = $('#nama-customer').val()
+        const url = base_url + `/customer/get-data?name=${name}`
+        fetch(url, {
+            headers: {
+                "X-CSRF-TOKEN": token
+            },
+            method: 'get',
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+        })
+    }
+})
+
 $('#tambah-produk').on('click', () => {
     const data_id = $('.product-choose').last().data('id')
     $('.product-choose').last().clone().appendTo('#product-choose-all')
@@ -5,6 +65,51 @@ $('#tambah-produk').on('click', () => {
     $('.product-delete').last().attr('data-id', data_id + 1);
     $('.jumlah-produk').last().val('')
     productDelete()
+})
+
+// modal tambah customer
+$('#customer-phone-number').on('keyup', () => {
+    if($('#customer-phoneNumber').val().length < 11) {
+        $('#phone-number-validation').removeClass('d-none')
+    } else {
+        $('#phone-number-validation').addClass('d-none')
+    }
+})
+
+$('#form-tambah-customer').on('submit', (event) => {
+    event.preventDefault()
+    const formData = new FormData(event.target);
+    formData.append('_token', token)
+    const url = base_url + '/customer/store-data';
+    $.ajax({
+        type: 'post',
+        processData: false,
+        contentType: false,
+        data: formData,
+        url: url,
+        beforeSend: function() {
+            swal.fire({
+                title: "Loading...",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    swal.showLoading();
+                }
+            });
+        },
+        success: (resp) => {
+            Swal.close();
+            Swal.fire('Sukses', 'Customer ditambahkan', 'success')
+            $('#customer-name').val('')
+            $('#customer-address').val('')
+            $('#tambah-customer-modal').modal('hide')
+        },
+        error: (error) => {
+            Swal.close();
+            Swal.fire('Error', 'Gagal menambahkan customer', 'error')
+            console.log(error)
+        }
+    })
 })
 
 $('#form-tambah-transaksi').on('submit', (event) => {
@@ -17,7 +122,23 @@ $('#form-tambah-transaksi').on('submit', (event) => {
         contentType: false,
         data: formData,
         url: url,
-        
+        beforeSend: function() {
+            swal.fire({
+                title: "Loading...",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    swal.showLoading();
+                }
+            });
+        },
+        success: (resp) => {
+            Swal.close();
+            Swal.fire('Sukses', 'Transaksi ditambahkan', 'success')
+        },
+        error: (error) => {
+            console.log(error)
+        }
     })
 })
 

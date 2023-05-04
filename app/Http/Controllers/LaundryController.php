@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DurationLaundry;
 use App\Models\Laundry;
+use App\Models\TypeCloth;
+use App\Models\TypeLaundry;
 use Illuminate\Http\Request;
 
 class LaundryController extends Controller
@@ -68,5 +71,32 @@ class LaundryController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getTypeLaundry()
+    {
+        $data = TypeLaundry::select('id', 'name')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+
+    public function getTypeCloth()
+    {
+        $data = TypeCloth::select('id', 'name')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+    public function getDurationLaundry()
+    {
+        $data = DurationLaundry::select('id', 'name')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
     }
 }
