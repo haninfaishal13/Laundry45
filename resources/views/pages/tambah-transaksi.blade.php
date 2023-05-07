@@ -43,12 +43,8 @@
                     <label for="namaCustomer" class="fw-semibold">Nama:</label>
                     <div class="row">
                         <div class="col-7 col-sm-10">
-                            <input type="text" name="customer" id="nama-customer" style="width:100%; padding:3px;">
-                            <div id="option-search"></div>
-                            {{-- <select name="customer" id="namaCustomer" style="width:100%; padding:3px;">
-                                <option value="1">Faishal Hanin</option>
-                                <option value="2">Aurum NF</option>
-                            </select> --}}
+                            {{-- <input type="text" name="customer" id="nama-customer" style="width:100%; padding:3px;"> --}}
+                            <select name="customer" id="nama-customer" class="select2" style="width:100%"></select>
                         </div>
                         <div class="col-5 col-sm-2">
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambah-customer-modal">

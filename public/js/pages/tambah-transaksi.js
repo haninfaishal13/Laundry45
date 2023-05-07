@@ -40,23 +40,41 @@ fetch(base_url + '/laundry/getTypeCloth', {
     console.log(data)
 })
 
-$('#nama-customer').on('keyup', () => {
-    console.log('a')
-    if($('#nama-customer').val().length > 2) {
-        const name = $('#nama-customer').val()
-        const url = base_url + `/customer/get-data?name=${name}`
-        fetch(url, {
-            headers: {
-                "X-CSRF-TOKEN": token
-            },
-            method: 'get',
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data)
-        })
+$('#nama-customer').select2({
+    placeholder: 'Pilih nama',
+    ajax: {
+        url: base_url + `/customer/select-name`,
+        type: 'post',
+        dataType: 'json',
+        data: function(params) {
+            return {
+                search:params.term,
+            }
+        },
+        processResults: function(response) {
+            return {
+                results: response,
+            };
+        },
+        cache: true,
     }
 })
+// $('#nama-customer').on('keyup', () => {
+//     if($('#nama-customer').val().length > 2) {
+//         const name = $('#nama-customer').val()
+//         const url = base_url + `/customer/get-data?name=${name}`
+//         fetch(url, {
+//             headers: {
+//                 "X-CSRF-TOKEN": token
+//             },
+//             method: 'get',
+//         })
+//         .then((response) => response.json())
+//         .then((data) => {
+//             console.log(data)
+//         })
+//     }
+// })
 
 $('#tambah-produk').on('click', () => {
     const data_id = $('.product-choose').last().data('id')
@@ -69,7 +87,7 @@ $('#tambah-produk').on('click', () => {
 
 // modal tambah customer
 $('#customer-phone-number').on('keyup', () => {
-    if($('#customer-phoneNumber').val().length < 11) {
+    if($('#customer-phone-number').val().length < 11) {
         $('#phone-number-validation').removeClass('d-none')
     } else {
         $('#phone-number-validation').addClass('d-none')
@@ -111,6 +129,8 @@ $('#form-tambah-customer').on('submit', (event) => {
         }
     })
 })
+
+// tambah transaksi
 
 $('#form-tambah-transaksi').on('submit', (event) => {
     event.preventDefault();

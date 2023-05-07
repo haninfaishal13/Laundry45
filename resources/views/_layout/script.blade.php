@@ -2,10 +2,17 @@
 <script src="{{ asset('assets/js/fontawesome-free/all.min.js') }}"></script>
 <script src="{{ asset('assets/js/sweetlaert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery/jquery-3.6.4.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/custom/custom.js') }}"></script>
 <script>
     const base_url = "{{url('/')}}"
     const token = $('[name="csrf_token"]').attr('content')
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': token
+        }
+    });
 
     $('#logout').on('click', () => {
         const url = base_url + '/auth/logout';

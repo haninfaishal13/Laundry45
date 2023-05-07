@@ -17,13 +17,13 @@ class CustomerController extends Controller
         //
     }
 
-    public function getData(Request $request)
+    public function selectName(Request $request)
     {
 
-        if(!$request->name) {
-            $data = Customer::select('id','name')->limit(10)->get();
+        if($request->search == '') {
+            $data = Customer::select('id','name as text')->limit(10)->get();
         } else {
-            $data = Customer::select('id', 'name')->where('name', 'LIKE', '%'.$request->name.'%')->limit(10)->get();
+            $data = Customer::select('id', 'name as text')->where('name', 'LIKE', '%'.$request->search.'%')->limit(10)->get();
         }
         return response()->json($data);
     }
@@ -51,7 +51,7 @@ class CustomerController extends Controller
                 'message' => $validator->errors()
             ], 422);
         }
-        $customer = $request->only('name', 'address');
+        $customer = $request->only('name', 'address', 'phone_number');
         try {
             Customer::create($customer);
             return response()->json([

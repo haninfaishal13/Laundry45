@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailLaundry;
 use App\Models\DurationLaundry;
 use App\Models\Laundry;
 use App\Models\TypeCloth;
@@ -32,13 +33,34 @@ class LaundryController extends Controller
     public function store(Request $request)
     {
         dd($request->all());
-        $customer_id = $request->customer;
+        $customer_id = $request->customer_id;
+        $discount = $request->discount || 0;
+        $total_price = $request->price - ($request->price * 0/100);
 
-        Laundry::create([
-            'user_id' => '',
-            'customer_id' => $customer_id,
-            'duration_id' => ''
+        $newLaundry = Laundry::create([
+            'user_id' => $request->user_id,
+            'customer_id' => $request->customer_id,
+            'duration_id' => $request->duration_id,
+            'date_start' => $request->date_start,
+            'date_finish' => $request->date_finish,
+            'price' => $request->price,
+            'discount' => $discount,
+            'total_price' => $total_price,
+            'total_pay' => $request->total_pay,
+            'status_pay' => ($request->status_pay || 0),
+            'notes' => $request->notes
         ]);
+
+        $newLaundryId = $newLaundry->id;
+
+        foreach($request->listDetail as $detail) {
+            DetailLaundry::create([
+                'laundry_id' => $newLaundryId,
+                'type_laundry_id' => $detail['type_laundry_id'],
+                'quantity' => $detail['quantity']
+            ]);
+        }
+
     }
 
     /**

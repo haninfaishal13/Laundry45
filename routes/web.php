@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth'], function() {
         return view('pages.dashboard');
     })->name('dashboard');
     Route::group(['prefix' => 'customer'], function() {
-        Route::get('get-data', [CustomerController::class, 'getData'])->name('customer.getData');
+        Route::post('select-name', [CustomerController::class, 'selectName'])->name('customer.getData');
         Route::get('get-data/{id}', [CustomerController::class, 'show'])->name('customer.getData.show');
         Route::post('store-data', [CustomerController::class, 'store'])->name('customer.store');
     });
